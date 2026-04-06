@@ -5,15 +5,7 @@ const app = express();
 // 1. ✅ ย้าย CORS มาไว้บนสุด และใช้แค่อันเดียวที่ตั้งค่าถูกต้องครับ
 // สิ่งนี้จะอนุญาตให้หน้าเว็บ Netlify ของบอสคุยกับ Render ได้โดยไม่โดนบล็อก
 app.use(cors({
-  origin: function (origin, callback) {
-    // 💡 ถ้าไม่มี origin (เช่นเรียกผ่าน Postman) หรือ origin ตรงกับที่เราตั้งไว้
-    // หรือเป็น URL ของ Netlify ในโปรเจกต์นี้ (ใช้ regex เช็คชื่อโปรเจกต์)
-    if (!origin || allowedOrigins.indexOf(origin) !== -1 || origin.includes("greencarbonplatform.netlify.app")) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+  origin: true, // อนุญาตทุกที่ที่เรียกเข้ามา
   credentials: true
 }));
 app.use(express.json());
