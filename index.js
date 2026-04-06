@@ -2,7 +2,13 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 
-app.use(cors());
+// 1. ✅ ย้าย CORS มาไว้บนสุด และใช้แค่อันเดียวที่ตั้งค่าถูกต้องครับ
+// สิ่งนี้จะอนุญาตให้หน้าเว็บ Netlify ของบอสคุยกับ Render ได้โดยไม่โดนบล็อก
+app.use(cors({
+  origin: "https://green-carbon-platform.netlify.app", 
+  credentials: true
+}));
+
 app.use(express.json());
 
 // Import Routes
@@ -13,9 +19,9 @@ const aiRoutes = require("./routes/ai");
 const iotRoutes = require("./routes/iot");
 const settingsRoutes = require("./routes/settings");
 const billRoutes = require("./routes/bill");
-const leadRoutes = require("./routes/leads"); // ✅ NEW: เพิ่มบรรทัดนี้
+const leadRoutes = require("./routes/leads");
 
-// --- 🛠️ จัดระเบียบ API Path ---
+// --- 🛠️ API Path ---
 app.use("/api/auth", authRoutes);
 app.use("/api/energy", energyRoutes);
 app.use("/api/report", reportRoutes);
@@ -23,7 +29,7 @@ app.use("/api/bill", billRoutes);
 app.use("/api/iot", iotRoutes);
 app.use("/api/settings", settingsRoutes);
 app.use("/api/ai", aiRoutes);
-app.use("/api/leads", leadRoutes); // ✅ NEW: เพิ่มบรรทัดนี้ (URL: /api/leads/collect)
+app.use("/api/leads", leadRoutes);
 
 // Health check
 app.get("/", (req, res) => res.send("Green Carbon API Running"));
